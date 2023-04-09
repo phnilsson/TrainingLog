@@ -1,1 +1,5 @@
 # TrainingLog
+
+Setup:
+NodeJs
+

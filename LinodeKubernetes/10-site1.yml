@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traininglog
+  namespace: traininglog
+  labels:
+    app: traininglog
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: traininglog
+  template:
+    metadata:
+      labels:
+        app: traininglog
+    spec:
+      containers:
+        - name: traininglog
+          image: git.systementor.se/philip.nilsson/traininglog
+          ports:
+            - containerPort: 5000
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: traininglog
+  name: traininglog-service
+  labels:
+    app: traininglog
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: traininglog
+  sessionAffinity: None
